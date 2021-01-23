@@ -30,8 +30,38 @@ kotlin {
       executable()
     }
   }
+
+  macosX64 {
+    compilations.getByName("main") {
+      cinterops {
+        create("myplugin")
+      }
+    }
+    binaries {
+      executable()
+    }
+  }
+
+  mingwX64("windowsX64") {
+    compilations.getByName("main") {
+      cinterops {
+        create("myplugin")
+      }
+    }
+    binaries {
+      executable()
+    }
+  }
 }
-tasks["cinteropMypluginLinuxX64"].dependsOn("myplugin:createReleaseLinux")
+tasks.findByName("cinteropMypluginLinuxX64")?.apply {
+  tasks.findByPath("myplugin:createReleaseLinux")?.let { dependsOn(it) }
+}
+tasks.findByName("cinteropMypluginMacosX64")?.apply {
+  tasks.findByPath("myplugin:createReleaseMacos")?.let { dependsOn(it) }
+}
+tasks.findByName("cinteropMypluginWindowsX64")?.apply {
+  tasks.findByPath("myplugin:createReleaseWindows")?.let { dependsOn(it) }
+}
 
 tasks.withType<Wrapper> {
   gradleVersion = "6.8.1"

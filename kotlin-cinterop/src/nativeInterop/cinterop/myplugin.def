@@ -1,4 +1,8 @@
 headers = myplugin.h
 compilerOpts = -Imyplugin/src/main/public
-staticLibraries = libmyplugin.a
+staticLibraries.linux_x64 = libmyplugin.a
+staticLibraries.macos_x64 = libmyplugin.a
+staticLibraries.mingw_x64 = libmyplugin.lib
 libraryPaths.linux_x64 = myplugin/build/lib/main/release/linux/
+libraryPaths.macos_x64 = myplugin/build/lib/main/release/macos/
+libraryPaths.mingw_x64 = myplugin/build/lib/main/release/windows/
