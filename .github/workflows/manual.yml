@@ -1,0 +1,43 @@
+name: Test Kotlin C Interop
+
+on:
+  push:
+    branches: [ master ]
+    paths: 
+      - 'kotlin-cinterop'
+  pull_request:
+    branches: [ master ]
+    paths: 
+      - 'kotlin-cinterop'
+
+defaults:
+  run:
+    working-directory: kotlin-cinterop
+
+jobs:
+  testOnUbuntu:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build
+        run: ./gradlew build
+      - name: Run executable
+        run: ./gradlew runReleaseExecutableLinuxX64
+
+  testOnMacOS:
+    runs-on: macOS-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build
+        run: ./gradlew build
+      - name: Run executable
+        run: ./gradlew runReleaseExecutableMacosX64
+
+  testOnWindows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build
+        run: .\gradlew build
+      - name: Run executable
+        run: .\gradlew runReleaseExecutableWindowsX64
