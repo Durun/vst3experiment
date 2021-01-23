@@ -2,13 +2,13 @@ name: Test Kotlin C Interop
 
 on:
   push:
-    branches: [ master ]
+    branches: [ main ]
     paths: 
-      - 'kotlin-cinterop'
+      - 'kotlin-cinterop/**/*'
   pull_request:
-    branches: [ master ]
+    branches: [ main ]
     paths: 
-      - 'kotlin-cinterop'
+      - 'kotlin-cinterop/**/*'
 
 defaults:
   run:
