@@ -1,0 +1,4 @@
+headers = myplugin.h
+compilerOpts = -Imyplugin/src/main/public
+staticLibraries = libmyplugin.a
+libraryPaths.linux_x64 = myplugin/build/lib/main/release/linux/

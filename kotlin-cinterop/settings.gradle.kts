@@ -8,3 +8,4 @@
  */
 
 rootProject.name = "vst3experiment.cinterop"
+include("myplugin")
