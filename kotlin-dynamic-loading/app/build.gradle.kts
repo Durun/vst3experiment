@@ -12,6 +12,13 @@ repositories {
 
 kotlin {
     linuxX64 {
+        compilations.getByName("main") {
+            cinterops {
+                create("plugin") {
+                    compilerOpts("-I${rootProject.project("plugin").buildDir.resolve("bin/linuxX64/releaseShared")}")
+                }
+            }
+        }
         binaries {
             executable()
         }
