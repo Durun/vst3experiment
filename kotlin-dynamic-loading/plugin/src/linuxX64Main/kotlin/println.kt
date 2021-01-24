@@ -1,1 +1,7 @@
-internal actual fun println(message: Any?): Unit = println(message)
+package plugin
+
+import platform.posix.printf
+
+internal actual fun println(message: Any?) {
+	printf("$message\n")
+}
