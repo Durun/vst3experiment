@@ -19,6 +19,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Build library
+        run: |
+          ./gradlew myplugin:createReleaseLinux
+          find myplugin/build/lib
       - name: Build
         run: ./gradlew build
       - name: Run executable
@@ -28,8 +32,12 @@ jobs:
     runs-on: macOS-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Build library
+        run: |
+          ./gradlew myplugin:createReleaseMacos
+          find myplugin/build/lib
       - name: Build
-        run: ./gradlew build
+        run: ./gradlew linkReleaseExecutableMacosX64
       - name: Run executable
         run: ./gradlew runReleaseExecutableMacosX64
 
@@ -37,7 +45,11 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Build library
+        run: |
+          .\gradlew myplugin:createReleaseWindows
+          Get-ChildItem -r myplugin\build
       - name: Build
-        run: .\gradlew build
+        run: .\gradlew linkReleaseExecutableWindowsX64
       - name: Run executable
         run: .\gradlew runReleaseExecutableWindowsX64
