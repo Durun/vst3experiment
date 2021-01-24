@@ -8,4 +8,4 @@
  */
 
 rootProject.name = "kotlin-dynamic-loading"
-include("app")
+include("app", "plugin")

@@ -1,0 +1,1 @@
+internal expect fun println(message: Any?)
