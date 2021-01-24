@@ -10,10 +10,6 @@ repositories {
     mavenCentral()
 }
 
-dependencies {
-    commonMainImplementation(kotlin("stdlib-common"))
-}
-
 kotlin {
     linuxX64 {
         binaries {

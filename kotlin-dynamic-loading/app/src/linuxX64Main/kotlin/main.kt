@@ -22,6 +22,7 @@ fun main(args: Array<String>) {
 		symbol.takeIf { error == null }?.reinterpret<CFunction<()->Int>>()
 			?: throw IllegalStateException("$error").also {
 				println("(loader) Failed: resolve $funcName: $error")
+				dlclose(handle)
 			}
 	}
 
