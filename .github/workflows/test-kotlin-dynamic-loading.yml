@@ -1,0 +1,55 @@
+name: Test Kotlin dynamic loading
+
+on:
+  push:
+    branches: [ main ]
+    paths: 
+      - 'kotlin-dynamic-loading/**/*'
+  pull_request:
+    branches: [ main ]
+    paths: 
+      - 'kotlin-dynamic-loading/**/*'
+
+defaults:
+  run:
+    working-directory: kotlin-dynamic-loading
+
+jobs:
+  testOnUbuntu:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build library
+        run: |
+          ./gradlew :plugin:build
+          find plugin/build/bin
+      - name: Build
+        run: ./gradlew :app:build
+      - name: Run executable
+        run: ./gradlew :app:runReleaseExecutableLinuxX64
+
+  testOnMacOS:
+    runs-on: macOS-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build library
+        run: |
+          ./gradlew :plugin:build
+          find plugin/build/bin
+      - name: Build
+        run: ./gradlew :app:build
+      - name: Run executable
+        run: ./gradlew :app:runReleaseExecutableMacosX64
+
+  testOnWindows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build library
+        run: |
+          .\gradlew :plugin:build
+          Get-ChildItem -r plugin\build\bin
+      - name: Build
+        run: .\gradlew :app:build
+      - name: Run executable
+        run: .\gradlew :app:runReleaseExecutableWindowsX64
