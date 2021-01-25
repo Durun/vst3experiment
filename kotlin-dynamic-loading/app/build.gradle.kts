@@ -26,12 +26,26 @@ kotlin {
     }
 
     macosX64 {
+        compilations.getByName("main") {
+            cinterops {
+                create("plugin") {
+                    compilerOpts("-I${plugin.buildDir.resolve("bin/macosX64/releaseShared")}")
+                }
+            }
+        }
         binaries {
             executable()
         }
     }
 
     mingwX64("windowsX64") {
+        compilations.getByName("main") {
+            cinterops {
+                create("plugin") {
+                    compilerOpts("-I${plugin.buildDir.resolve("bin/windowsX64/releaseShared")}")
+                }
+            }
+        }
         binaries {
             executable()
         }
@@ -39,7 +53,15 @@ kotlin {
 }
 
 evaluationDependsOn(plugin.path)
-tasks["cinteropPluginLinuxX64"].dependsOn(plugin.tasks["linkReleaseSharedLinuxX64"])
+tasks.findByName("cinteropPluginLinuxX64")?.apply {
+    plugin.tasks.findByName("linkReleaseSharedLinuxX64")?.let { dependsOn(it) }
+}
+tasks.findByName("cinteropPluginMacosX64")?.apply {
+    plugin.tasks.findByName("linkReleaseSharedMacosX64")?.let { dependsOn(it) }
+}
+tasks.findByName("cinteropPluginWindowsX64")?.apply {
+    plugin.tasks.findByName("linkReleaseSharedWindowsX64")?.let { dependsOn(it) }
+}
 
 tasks.withType<Exec> {
     val os = org.gradle.internal.os.OperatingSystem.current()
@@ -49,7 +71,13 @@ tasks.withType<Exec> {
         os.isWindows -> "windowsX64"
         else -> throw NotImplementedError("Not available in ${os.familyName}")
     }
-    val lib = plugin.buildDir.resolve("bin/$dir/releaseShared/libplugin.so")
+    val file = when {
+        os.isLinux -> "libplugin.so"
+        os.isMacOsX -> "libplugin.dylib"
+        os.isWindows -> "plugin.lib"
+        else -> throw NotImplementedError("Not available in ${os.familyName}")
+    }
+    val lib = plugin.buildDir.resolve("bin/$dir/releaseShared/$file")
     args(lib, "libplugin_symbols")
 }
 
