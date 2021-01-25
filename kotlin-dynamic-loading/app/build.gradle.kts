@@ -10,12 +10,13 @@ repositories {
     mavenCentral()
 }
 
+val plugin = project(":plugin")
 kotlin {
     linuxX64 {
         compilations.getByName("main") {
             cinterops {
                 create("plugin") {
-                    compilerOpts("-I${rootProject.project("plugin").buildDir.resolve("bin/linuxX64/releaseShared")}")
+                    compilerOpts("-I${plugin.buildDir.resolve("bin/linuxX64/releaseShared")}")
                 }
             }
         }
@@ -35,6 +36,21 @@ kotlin {
             executable()
         }
     }
+}
+
+evaluationDependsOn(plugin.path)
+tasks["cinteropPluginLinuxX64"].dependsOn(plugin.tasks["linkReleaseSharedLinuxX64"])
+
+tasks.withType<Exec> {
+    val os = org.gradle.internal.os.OperatingSystem.current()
+    val dir = when {
+        os.isLinux -> "linuxX64"
+        os.isMacOsX -> "macosX64"
+        os.isWindows -> "windowsX64"
+        else -> throw NotImplementedError("Not available in ${os.familyName}")
+    }
+    val lib = plugin.buildDir.resolve("bin/$dir/releaseShared/libplugin.so")
+    args(lib, "libplugin_symbols")
 }
 
 tasks.withType<Wrapper> {
