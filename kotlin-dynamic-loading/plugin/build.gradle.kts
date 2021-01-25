@@ -18,6 +18,20 @@ kotlin {
             }
         }
     }
+    macosX64 {
+        binaries {
+            sharedLib {
+                baseName = project.name
+            }
+        }
+    }
+    mingwX64("windowsX64") {
+        binaries {
+            sharedLib {
+                baseName = project.name
+            }
+        }
+    }
 }
 
 tasks.withType<Wrapper> {

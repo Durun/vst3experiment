@@ -74,7 +74,7 @@ tasks.withType<Exec> {
     val file = when {
         os.isLinux -> "libplugin.so"
         os.isMacOsX -> "libplugin.dylib"
-        os.isWindows -> "plugin.lib"
+        os.isWindows -> "plugin.dll" // and "plugin.def"
         else -> throw NotImplementedError("Not available in ${os.familyName}")
     }
     val lib = plugin.buildDir.resolve("bin/$dir/releaseShared/$file")
