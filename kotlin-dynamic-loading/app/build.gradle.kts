@@ -10,6 +10,10 @@ repositories {
     mavenCentral()
 }
 
+dependencies {
+    commonMainImplementation(kotlin("stdlib-common"))
+}
+
 val plugin = project(":plugin")
 kotlin {
     linuxX64 {
@@ -78,7 +82,7 @@ tasks.withType<Exec> {
         else -> throw NotImplementedError("Not available in ${os.familyName}")
     }
     val lib = plugin.buildDir.resolve("bin/$dir/releaseShared/$file")
-    args(lib, "libplugin_symbols")
+    args(lib)
 }
 
 tasks.withType<Wrapper> {
