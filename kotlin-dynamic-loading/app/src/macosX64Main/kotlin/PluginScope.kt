@@ -21,9 +21,9 @@ actual class PluginScope(
 }
 
 actual fun usePlugin(file: String, body: PluginScope.() -> Unit) {
-	val path =
-		if (file.startsWith("/")) file
-		else "./$file"
+	val path = Path.of(file).let {
+		if (it.isAbsolute) it else Path.of(".").resolve(it.toString())
+	}.toString()
 	val handle = dlopen(path, RTLD_LAZY)
 		?: throw RuntimeException("Failed: load $path")
 
