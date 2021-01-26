@@ -1,0 +1,3 @@
+headers.linux = libplugin_api.h
+headers.osx = libplugin_api.h
+headers.mingw = plugin_api.h
