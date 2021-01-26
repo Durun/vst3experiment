@@ -6,6 +6,10 @@ fun main(args: Array<String>) {
 	val file= args.first()
 
 	runCatching {
+		/**
+		 * Call func1 and func2 in the dynamic library file.
+		 * @see PluginScope
+		 */
 		usePlugin(file) {
 			println("(loader) Success: open $file")
 			val v1 = func1(0)
