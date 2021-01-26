@@ -5,7 +5,7 @@ import plugin.plugin_ExportedSymbols
 actual class PluginScope(
 	handle: HMODULE
 ) {
-	private val plugin = resolveSymbol(handle, "libplugin_symbols")!!
+	private val plugin = resolveSymbol(handle, "plugin_symbols")!!
 		.reinterpret<CFunction<()->plugin_ExportedSymbols>>()
 		.invoke().kotlin.root.plugin
 
