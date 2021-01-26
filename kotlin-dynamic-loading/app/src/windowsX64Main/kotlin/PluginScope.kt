@@ -1,11 +1,12 @@
 import kotlinx.cinterop.*
 import platform.windows.*
+import plugin.plugin_ExportedSymbols
 
 actual class PluginScope(
-	handle: CPointer<*>
+	handle: HMODULE
 ) {
 	private val plugin = resolveSymbol(handle, "libplugin_symbols")!!
-		.reinterpret<CFunction<()->libplugin_ExportedSymbols>>()
+		.reinterpret<CFunction<()->plugin_ExportedSymbols>>()
 		.invoke().kotlin.root.plugin
 
 	actual fun func1(arg: Int): Int {
@@ -23,8 +24,10 @@ actual fun usePlugin(file: String, body: PluginScope.() -> Unit) {
 	val path =
 		if (file.startsWith("/")) file
 		else "./$file"
-	val handle = LoadLibrary(path)
-		?: throw RuntimeException("Failed: load $path")
+	val handle: HMODULE = memScoped {
+		LoadLibrary!!.invoke(path.wcstr.ptr)
+			?: throw RuntimeException("Failed: load $path")
+	}
 
 	try {
 		PluginScope(handle).body()
@@ -35,11 +38,8 @@ actual fun usePlugin(file: String, body: PluginScope.() -> Unit) {
 	}
 }
 
-private fun resolveSymbol(handle: CPointer<*>, name: String): CPointer<*>? {
-	dlerror()
+private fun resolveSymbol(handle: HMODULE?, name: String): CPointer<*>? {
 	val symbol = GetProcAddress(handle, name)
-	dlerror()?.let {
-		throw IllegalStateException("Failed resolve $name: ${it.toKString()}")
-	}
+		?: throw IllegalStateException("Failed resolve $name")
 	return symbol
 }

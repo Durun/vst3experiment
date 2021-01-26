@@ -1,5 +1,6 @@
 import kotlinx.cinterop.*
 import platform.posix.*
+import plugin.libplugin_ExportedSymbols
 
 actual class PluginScope(
 	handle: CPointer<*>
