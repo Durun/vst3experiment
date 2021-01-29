@@ -8,4 +8,4 @@
  */
 
 rootProject.name = "vst3kotlin"
-include("vst3sdk")
+include("vst3sdk", "vst3cw")
