@@ -25,9 +25,15 @@ jobs:
           java-version: 15
       - name: Set up cmake
         uses: jwlawson/actions-setup-cmake@v1.7
+      - name: Install Dependencies
+        run: |
+          export DEBIAN_FRONTEND=noninteractive
+          sudo apt update
+          sudo apt install clang
+          sudo apt install "libstdc++6" libx11-xcb-dev libxcb-util-dev libxcb-cursor-dev libxcb-xkb-dev libxkbcommon-dev libxkbcommon-x11-dev libfontconfig1-dev libcairo2-dev libgtkmm-3.0-dev libsqlite3-dev libxcb-keysyms1-dev
       - name: Build library
         run: |
-          ./gradlew :vst3cw:createReleaseLinux
+          ./gradlew :vst3cw:createReleaseLinux --info
           find vst3sdk/build/vst3sdk
       - name: Build and Run loader
         run: |
@@ -46,7 +52,7 @@ jobs:
         uses: jwlawson/actions-setup-cmake@v1.7
       - name: Build library
         run: |
-          ./gradlew :vst3cw:createReleaseMacos
+          ./gradlew :vst3cw:createReleaseMacos --info
           find vst3sdk/build/vst3sdk
       - name: Build and Run loader
         run: |
@@ -65,7 +71,7 @@ jobs:
         uses: jwlawson/actions-setup-cmake@v1.7
       - name: Build library
         run: |
-          .\gradlew :vst3cw:createReleaseWindows
+          .\gradlew :vst3cw:createReleaseWindows --info
           Get-ChildItem -r vst3sdk\build\vst3sdk
       - name: Build and Run loader
         run: |
