@@ -1,0 +1,55 @@
+name: Test vst3cw
+
+on:
+  push:
+    branches: [ main ]
+    paths: 
+      - 'vst3-kotlin/**/*'
+  pull_request:
+    branches: [ main ]
+    paths: 
+      - 'vst3-kotlin/**/*'
+
+defaults:
+  run:
+    working-directory: vst3-kotlin
+
+jobs:
+  testOnUbuntu:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build library
+        run: |
+          ./gradlew :vst3cw:createReleaseLinux
+          find vst3sdk/build/vst3sdk
+      - name: Build and Run loader
+        run: |
+          cd testLoader/linux
+          make run
+
+  testOnMacOS:
+    runs-on: macOS-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build library
+        run: |
+          ./gradlew :vst3cw:createReleaseMacos
+          find vst3sdk/build/vst3sdk
+      - name: Build and Run loader
+        run: |
+          cd testLoader/macos
+          make run
+
+  testOnWindows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build library
+        run: |
+          .\gradlew :vst3cw:createReleaseWindows
+          Get-ChildItem -r vst3sdk\build\vst3sdk
+      - name: Build and Run loader
+        run: |
+          cd testLoader\windows
+          make run
