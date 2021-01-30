@@ -7,7 +7,7 @@ SDK_HEADERS=$(VST3SDK)/VST_SDK/VST3_SDK
 
 WRAPPER=../../vst3cw
 WRAPPER_HEADERS=$(WRAPPER)/src/main/public
-WRAPPER_LIB=$(WRAPPER)/build/lib/main/release/linux
+WRAPPER_LIB=$(WRAPPER)/build/lib/main/release/macos
 
 OPT_HEADERS=-I$(SDK_HEADERS) -I$(WRAPPER_HEADERS)
 OPT_LIBS=-L$(WRAPPER_LIB) -ldl -lvst3cw
@@ -17,7 +17,7 @@ OPT_LIBS=-L$(WRAPPER_LIB) -ldl -lvst3cw
 all: $(PROGRAM)
 
 run: $(PROGRAM)
-	./loader $(VST3)/Release/panner.vst3/Contents/x86_64-linux/panner.so
+	./loader $(VST3)/Release/panner.vst3/Contents/x86_64-macos/panner.dylib
 
 # dlfcn.h requires -ldl option.
 loader: loader.c

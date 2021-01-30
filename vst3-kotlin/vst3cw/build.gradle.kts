@@ -11,8 +11,6 @@ plugins {
 
 val vst3sdk = project(":vst3sdk")
 evaluationDependsOn(vst3sdk.path)
-ext["includeDir"] = projectDir.resolve("src/main/public").absolutePath
-ext["libraryDir"] = buildDir.resolve("lib/main/release/linux").absolutePath
 library {
 	dependencies {
 		api(files(vst3sdk.ext["includeDir"]))
@@ -23,6 +21,26 @@ library {
 	targetMachines.add(machines.macOS.x86_64)
 	targetMachines.add(machines.windows.x86_64)
 	linkage.set(listOf(Linkage.STATIC))
+}
+
+// Publish ext["includeDir"], ext["libraryDir"]
+ext {
+	val os = org.gradle.internal.os.OperatingSystem.current()
+	val dir = when {
+		os.isLinux -> "linux"
+		os.isMacOsX -> "macos"
+		os.isWindows -> "windows"
+		else -> throw NotImplementedError("Not available in ${os.familyName}")
+	}
+	val lib = when {
+		os.isLinux -> "libvst3cw.a"
+		os.isMacOsX -> "libvst3cw.a"
+		os.isWindows -> "vst3cw.lib"
+		else -> throw NotImplementedError("Not available in ${os.familyName}")
+	}
+	set("includeDir", projectDir.resolve("src/main/public").absolutePath)
+	set("libraryDir", buildDir.resolve("lib/main/release/$dir").absolutePath)
+	set("staticLib", lib)
 }
 
 tasks.withType<CppCompile> {
