@@ -5,6 +5,11 @@ A demo program to show VST3 plugin's info.
 This program depends on [VST3 wrapper for C](../vst3cw) as a static library.
 And this program (loader.c) is written in plain **C** !
 
+## Requirements
+- x86_64 architecture
+- Linux
+- cmake
+
 ## Demo
 - for Linux
     ```shell
