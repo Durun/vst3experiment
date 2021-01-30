@@ -62,7 +62,7 @@ extern "C" {
 	static const int64 kMaxInt64 = 0x7fffffffffffffffLL;
 	static const int64 kMinInt64 = (-0x7fffffffffffffffLL-1);
 #endif
-	static const uint64 kMaxInt64u = uint64 (0xffffffff) | (uint64 (0xffffffff) << 32);
+	static const uint64 kMaxInt64u = (uint64) (0xffffffff) | ((uint64) (0xffffffff) << 32);
 
 //-----------------------------------------------------------------
 // other Semantic Types
