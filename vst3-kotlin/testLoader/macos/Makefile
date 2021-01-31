@@ -17,7 +17,7 @@ OPT_LIBS=-L$(WRAPPER_LIB) -ldl -lvst3cw
 all: $(PROGRAM)
 
 run: $(PROGRAM)
-	./loader $(VST3)/Release/panner.vst3/Contents/x86_64-macos/panner.dylib
+	./loader $(VST3)/Release/panner.vst3/Contents/MacOS/panner
 
 # dlfcn.h requires -ldl option.
 loader: loader.c

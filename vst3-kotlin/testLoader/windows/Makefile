@@ -17,7 +17,7 @@ OPT_LIBS=-L$(WRAPPER_LIB) -lvst3cw
 all: $(PROGRAM)
 
 run: $(PROGRAM)
-	./loader $(VST3)/Release/panner.vst3/Contents/x86_64-windows/panner.dll
+	./loader $(VST3)/Release/panner.vst3/Contents/x86_64-win/panner.vst3
 
 loader: loader.c
 	$(CC) $(OPT_HEADERS) $^ $(OPT_LIBS) -o $@
