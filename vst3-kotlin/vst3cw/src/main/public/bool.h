@@ -1,5 +1,9 @@
 #pragma once
 
 #ifndef __cplusplus
-typedef int bool;
+
+#if SMTG_OS_LINUX || SMTG_OS_WINDOWS
+	typedef int bool;
+#endif
+
 #endif
