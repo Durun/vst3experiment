@@ -4,6 +4,7 @@ import de.undercouch.gradle.tasks.download.Verify
 plugins {
 	id("de.undercouch.download") version "4.1.1"
 	id("net.freudasoft.gradle-cmake-plugin") version "0.0.2"
+	`maven-publish`
 }
 
 val sdkDir = buildDir.resolve("VST_SDK")
@@ -18,6 +19,9 @@ cmake {
 	buildTarget.set("install")
 	buildConfig.set("Release")
 	def.put("CMAKE_BUILD_TYPE", "Release")
+	def.put("SMTG_ADD_VST3_PLUGINS_SAMPLES", "OFF")
+	def.put("SMTG_ADD_VST3_HOSTING_SAMPLES", "OFF")
+	def.put("SMTG_CREATE_PLUGIN_LINK", "OFF")
 }
 
 tasks {
@@ -47,6 +51,14 @@ val clean by tasks.creating {
 	dependsOn(tasks["cmakeClean"])
 	doLast {
 		delete(buildDir)
+	}
+}
+
+publishing {
+	repositories {
+		maven {
+			url = uri("../repo")
+		}
 	}
 }
 
