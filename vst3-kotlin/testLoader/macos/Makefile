@@ -17,7 +17,7 @@ OPT_LIBS=-L$(WRAPPER_LIB) -ldl -lvst3cw
 all: $(PROGRAM)
 
 run: $(PROGRAM)
-	./loader $(VST3)/Release/panner.vst3/Contents/MacOS/panner
+	./loader $(VST3)/Release/helloworldWithVSTGUI.vst3/Contents/MacOS/helloworldWithVSTGUI
 
 # dlfcn.h requires -ldl option.
 loader: loader.c
